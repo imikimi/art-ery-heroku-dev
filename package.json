@@ -1,0 +1,14 @@
+{
+  "author": "Shane Brinkman-Davis Delamore, Imikimi LLC",
+  "description": "Art.Ery Development / Test Server for Deployment to Heroku\n\nindex.js is generated from art-ery/art-ery-deploy-server",
+  "license": "ISC",
+  "name": "art-ery-heroku-dev",
+  "scripts": {
+    "dev": "neptune-namespaces --std; webpack-dev-server -d --progress",
+    "hot": "neptune-namespaces --std; webpack-dev-server --hot --inline --progress",
+    "nn": "neptune-namespaces --std",
+    "nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
+    "start": "node index.js",
+    "test": "neptune-namespaces --std; webpack-dev-server -d --progress"
+  }
+}
