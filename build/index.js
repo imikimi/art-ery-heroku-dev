@@ -56,9 +56,8 @@
 	 TODO:
 
 	 1) clone this repo
-	 2) require your own pipelines here and commit your changes
-	 3) run: webpack; git commit build/index.js -m "updated index.js"
-	 4) git push
+	 2) replace the require-pipelines below; commit your changes
+	 3) npm run buildDeploy
 
 	 That's it! If your heroku is set to auto-deploy on push, you are done!
 	 */
