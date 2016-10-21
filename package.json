@@ -4,11 +4,9 @@
   "license": "ISC",
   "name": "art-ery-heroku-dev",
   "scripts": {
-    "dev": "neptune-namespaces --std; webpack-dev-server -d --progress",
-    "hot": "neptune-namespaces --std; webpack-dev-server --hot --inline --progress",
-    "nn": "neptune-namespaces --std",
-    "nodeTest": "neptune-namespaces --std;mocha -u tdd --compilers coffee:coffee-script/register",
-    "start": "node index.js",
-    "test": "neptune-namespaces --std; webpack-dev-server -d --progress"
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "6.9.1"
   }
 }
