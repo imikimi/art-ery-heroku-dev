@@ -64,7 +64,7 @@
 	 */
 	__webpack_require__(2);
 
-	__webpack_require__(115);
+	__webpack_require__(142);
 
 
 /***/ },
@@ -1122,7 +1122,7 @@
 
 	ref = __webpack_require__(24), defineModule = ref.defineModule, log = ref.log;
 
-	Pipeline = Neptune.Art.Ery.Pipeline;
+	Pipeline = __webpack_require__(115).Pipeline;
 
 	defineModule(module, HelloWorld = (function(superClass) {
 	  extend(HelloWorld, superClass);
@@ -12455,44 +12455,50 @@
 /* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
-	/*
-	Used for buidling the minimal node.js code to deploy for production.
-	Right now, this is tested with HEROKU, but it should work in other cases.
-
-	Basically, you will build a single JS file that inludes:
-
-	  require and init your pipelines
-	  require this file
-
-	See art-ery-heroku-dev for a concrete example. In fact, you can use that repository
-	as a starting point. All you need to do is require your own pipelines in
-	the index.coffe file.
-	 */
-	var Server, log;
-
-	__webpack_require__(116);
-
-	log = __webpack_require__(24).log;
-
-	Server = __webpack_require__(143);
-
-	Server.Main.start({
-	  port: (process.env.PORT || Server.Main.defaults.port) | 0
-	});
+	module.exports = __webpack_require__(116);
 
 
 /***/ },
 /* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(117);
-
-	__webpack_require__(118);
+	module.exports = __webpack_require__(117).includeInNamespace(__webpack_require__(119)).addModules({
+	  ArtEryBaseObject: __webpack_require__(135),
+	  Config: __webpack_require__(136),
+	  Filter: __webpack_require__(137),
+	  Pipeline: __webpack_require__(141),
+	  PipelineRegistry: __webpack_require__(120),
+	  Request: __webpack_require__(138),
+	  RequestResponseBase: __webpack_require__(139),
+	  Response: __webpack_require__(140),
+	  Session: __webpack_require__(121)
+	});
 
 
 /***/ },
 /* 117 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Art, Ery,
+	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+	  hasProp = {}.hasOwnProperty;
+
+	Art = __webpack_require__(118);
+
+	module.exports = Art.Ery || Art.addNamespace('Ery', Ery = (function(superClass) {
+	  extend(Ery, superClass);
+
+	  function Ery() {
+	    return Ery.__super__.constructor.apply(this, arguments);
+	  }
+
+	  return Ery;
+
+	})(Neptune.Base));
+
+
+/***/ },
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Art, Neptune,
@@ -12514,58 +12520,19 @@
 
 
 /***/ },
-/* 118 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(119).includeInNamespace(__webpack_require__(120)).addModules({
-	  ArtEryBaseObject: __webpack_require__(136),
-	  Config: __webpack_require__(137),
-	  Filter: __webpack_require__(138),
-	  Pipeline: __webpack_require__(142),
-	  PipelineRegistry: __webpack_require__(121),
-	  Request: __webpack_require__(139),
-	  RequestResponseBase: __webpack_require__(140),
-	  Response: __webpack_require__(141),
-	  Session: __webpack_require__(122)
-	});
-
-
-/***/ },
 /* 119 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Art, Ery,
-	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-	  hasProp = {}.hasOwnProperty;
-
-	Art = __webpack_require__(117);
-
-	module.exports = Art.Ery || Art.addNamespace('Ery', Ery = (function(superClass) {
-	  extend(Ery, superClass);
-
-	  function Ery() {
-	    return Ery.__super__.constructor.apply(this, arguments);
-	  }
-
-	  return Ery;
-
-	})(Neptune.Base));
-
-
-/***/ },
-/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = [
 	  {
-	    pipelines: (__webpack_require__(121)).pipelines,
-	    session: (__webpack_require__(122)).singleton
+	    pipelines: (__webpack_require__(120)).pipelines,
+	    session: (__webpack_require__(121)).singleton
 	  }
 	];
 
 
 /***/ },
-/* 121 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, PipelineRegistry, decapitalize, defineModule, inspect, isClass, log, ref,
@@ -12618,7 +12585,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
 
 /***/ },
-/* 122 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, EventedMixin, Foundation, JsonStore, Session, Validator, inspect, isObject, isString, log, merge, plainObjectsDeepEq,
@@ -12627,7 +12594,7 @@
 
 	Foundation = __webpack_require__(24);
 
-	EventedMixin = __webpack_require__(123).EventedMixin;
+	EventedMixin = __webpack_require__(122).EventedMixin;
 
 	BaseObject = Foundation.BaseObject, merge = Foundation.merge, inspect = Foundation.inspect, isString = Foundation.isString, isObject = Foundation.isObject, log = Foundation.log, Validator = Foundation.Validator, plainObjectsDeepEq = Foundation.plainObjectsDeepEq, JsonStore = Foundation.JsonStore;
 
@@ -12695,40 +12662,40 @@
 
 	  return Session;
 
-	})(EventedMixin(__webpack_require__(136)));
+	})(EventedMixin(__webpack_require__(135)));
+
+
+/***/ },
+/* 122 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(123);
 
 
 /***/ },
 /* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(124);
+	module.exports = __webpack_require__(124).includeInNamespace(__webpack_require__(126)).addModules({
+	  Event: __webpack_require__(128),
+	  EventedBaseMixin: __webpack_require__(129),
+	  EventedMixin: __webpack_require__(131),
+	  EventedObject: __webpack_require__(133),
+	  EventedObjectBase: __webpack_require__(134),
+	  EventEpoch: __webpack_require__(130),
+	  EventManager: __webpack_require__(132)
+	});
 
 
 /***/ },
 /* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(125).includeInNamespace(__webpack_require__(127)).addModules({
-	  Event: __webpack_require__(129),
-	  EventedBaseMixin: __webpack_require__(130),
-	  EventedMixin: __webpack_require__(132),
-	  EventedObject: __webpack_require__(134),
-	  EventedObjectBase: __webpack_require__(135),
-	  EventEpoch: __webpack_require__(131),
-	  EventManager: __webpack_require__(133)
-	});
-
-
-/***/ },
-/* 125 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var Art, Events,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Art = __webpack_require__(126);
+	Art = __webpack_require__(125);
 
 	module.exports = Art.Events || Art.addNamespace('Events', Events = (function(superClass) {
 	  extend(Events, superClass);
@@ -12743,7 +12710,7 @@
 
 
 /***/ },
-/* 126 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Art, Neptune,
@@ -12765,21 +12732,21 @@
 
 
 /***/ },
-/* 127 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var _package;
 
 	module.exports = [
 	  {
-	    "package": _package = __webpack_require__(128),
+	    "package": _package = __webpack_require__(127),
 	    version: _package.version
 	  }
 	];
 
 
 /***/ },
-/* 128 */
+/* 127 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -12812,7 +12779,7 @@
 	};
 
 /***/ },
-/* 129 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, Event, Foundation, currentSecond, emptyProps,
@@ -12840,7 +12807,7 @@
 
 
 /***/ },
-/* 130 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Event, EventEpoch, Foundation, defineModule, eventEpoch, inspect, isFunction, isPlainObject, log,
@@ -12849,9 +12816,9 @@
 
 	Foundation = __webpack_require__(24);
 
-	EventEpoch = __webpack_require__(131);
+	EventEpoch = __webpack_require__(130);
 
-	Event = __webpack_require__(129);
+	Event = __webpack_require__(128);
 
 	defineModule = Foundation.defineModule, isFunction = Foundation.isFunction, log = Foundation.log, isPlainObject = Foundation.isPlainObject, inspect = Foundation.inspect;
 
@@ -12996,7 +12963,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
 
 /***/ },
-/* 131 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Epoch, EventEpoch, Foundation, defineModule, log,
@@ -13029,7 +12996,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
 
 /***/ },
-/* 132 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Event, EventEpoch, EventManager, EventedBaseMixin, Foundation, defineModule, eventEpoch, isFunction, isPlainObject, log,
@@ -13038,13 +13005,13 @@
 
 	Foundation = __webpack_require__(24);
 
-	EventManager = __webpack_require__(133);
+	EventManager = __webpack_require__(132);
 
-	EventEpoch = __webpack_require__(131);
+	EventEpoch = __webpack_require__(130);
 
-	Event = __webpack_require__(129);
+	Event = __webpack_require__(128);
 
-	EventedBaseMixin = __webpack_require__(130);
+	EventedBaseMixin = __webpack_require__(129);
 
 	defineModule = Foundation.defineModule, isFunction = Foundation.isFunction, log = Foundation.log, isPlainObject = Foundation.isPlainObject;
 
@@ -13111,7 +13078,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
 
 /***/ },
-/* 133 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {
@@ -13129,7 +13096,7 @@
 
 	Foundation = __webpack_require__(24);
 
-	Event = __webpack_require__(129);
+	Event = __webpack_require__(128);
 
 	defineModule = Foundation.defineModule, nextTick = Foundation.nextTick, isFunction = Foundation.isFunction, inspect = Foundation.inspect, clone = Foundation.clone, arrayWith = Foundation.arrayWith;
 
@@ -13301,7 +13268,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
 
 /***/ },
-/* 134 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Event, EventEpoch, EventManager, EventedObject, EventedObjectBase, Foundation, defineModule, eventEpoch, isFunction, isPlainObject, log,
@@ -13310,13 +13277,13 @@
 
 	Foundation = __webpack_require__(24);
 
-	EventManager = __webpack_require__(133);
+	EventManager = __webpack_require__(132);
 
-	EventEpoch = __webpack_require__(131);
+	EventEpoch = __webpack_require__(130);
 
-	Event = __webpack_require__(129);
+	Event = __webpack_require__(128);
 
-	EventedObjectBase = __webpack_require__(135);
+	EventedObjectBase = __webpack_require__(134);
 
 	defineModule = Foundation.defineModule, isFunction = Foundation.isFunction, log = Foundation.log, isPlainObject = Foundation.isPlainObject;
 
@@ -13378,16 +13345,16 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
 
 /***/ },
-/* 135 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var Event, EventEpoch, EventedObjectBase, Foundation, defineModule, eventEpoch, inspect, isFunction, isPlainObject, log;
 
 	Foundation = __webpack_require__(24);
 
-	EventEpoch = __webpack_require__(131);
+	EventEpoch = __webpack_require__(130);
 
-	Event = __webpack_require__(129);
+	Event = __webpack_require__(128);
 
 	defineModule = Foundation.defineModule, isFunction = Foundation.isFunction, log = Foundation.log, isPlainObject = Foundation.isPlainObject, inspect = Foundation.inspect;
 
@@ -13523,7 +13490,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
 
 /***/ },
-/* 136 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var ArtEry, ArtEryBaseObject, BaseObject, defineModule, ref,
@@ -13532,7 +13499,7 @@
 
 	ref = __webpack_require__(24), BaseObject = ref.BaseObject, defineModule = ref.defineModule;
 
-	ArtEry = __webpack_require__(119);
+	ArtEry = __webpack_require__(117);
 
 	defineModule(module, ArtEryBaseObject = (function(superClass) {
 	  extend(ArtEryBaseObject, superClass);
@@ -13559,7 +13526,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
 
 /***/ },
-/* 137 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, Config, defineModule, ref,
@@ -13590,7 +13557,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
 
 /***/ },
-/* 138 */
+/* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, CommunicationStatus, Filter, Foundation, Promise, Request, Response, defineModule, failure, getInspectedObjects, isPlainObject, log, merge, mergeInto, shallowClone, success,
@@ -13599,9 +13566,9 @@
 
 	Foundation = __webpack_require__(24);
 
-	Request = __webpack_require__(139);
+	Request = __webpack_require__(138);
 
-	Response = __webpack_require__(141);
+	Response = __webpack_require__(140);
 
 	getInspectedObjects = Foundation.getInspectedObjects, defineModule = Foundation.defineModule, BaseObject = Foundation.BaseObject, Promise = Foundation.Promise, log = Foundation.log, isPlainObject = Foundation.isPlainObject, mergeInto = Foundation.mergeInto, merge = Foundation.merge, shallowClone = Foundation.shallowClone, CommunicationStatus = Foundation.CommunicationStatus;
 
@@ -13752,12 +13719,12 @@
 
 	  return Filter;
 
-	})(__webpack_require__(136)));
+	})(__webpack_require__(135)));
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
 
 /***/ },
-/* 139 */
+/* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var ArtEry, BaseObject, CommunicationStatus, Foundation, Request, RestClient, Validator, arrayWith, failure, inspect, isObject, isString, log, merge, missing, present, success, validStatus, validator, w,
@@ -13768,7 +13735,7 @@
 
 	present = Foundation.present, BaseObject = Foundation.BaseObject, RestClient = Foundation.RestClient, merge = Foundation.merge, inspect = Foundation.inspect, isString = Foundation.isString, isObject = Foundation.isObject, log = Foundation.log, Validator = Foundation.Validator, CommunicationStatus = Foundation.CommunicationStatus, arrayWith = Foundation.arrayWith, w = Foundation.w;
 
-	ArtEry = __webpack_require__(119);
+	ArtEry = __webpack_require__(117);
 
 	success = CommunicationStatus.success, missing = CommunicationStatus.missing, failure = CommunicationStatus.failure, validStatus = CommunicationStatus.validStatus;
 
@@ -13904,11 +13871,11 @@
 
 	  return Request;
 
-	})(__webpack_require__(140));
+	})(__webpack_require__(139));
 
 
 /***/ },
-/* 140 */
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var ArtEry, ArtEryBaseObject, BaseObject, CommunicationStatus, RequestResponseBase, arrayWith, defineModule, failure, inspect, inspectedObjectLiteral, isJsonType, isPlainObject, isString, log, merge, missing, ref, success, toInspectedObjects,
@@ -13917,9 +13884,9 @@
 
 	ref = __webpack_require__(24), BaseObject = ref.BaseObject, CommunicationStatus = ref.CommunicationStatus, log = ref.log, arrayWith = ref.arrayWith, defineModule = ref.defineModule, merge = ref.merge, isJsonType = ref.isJsonType, isString = ref.isString, isPlainObject = ref.isPlainObject, inspect = ref.inspect, inspectedObjectLiteral = ref.inspectedObjectLiteral, toInspectedObjects = ref.toInspectedObjects;
 
-	ArtEry = __webpack_require__(119);
+	ArtEry = __webpack_require__(117);
 
-	ArtEryBaseObject = __webpack_require__(136);
+	ArtEryBaseObject = __webpack_require__(135);
 
 	success = CommunicationStatus.success, missing = CommunicationStatus.missing, failure = CommunicationStatus.failure;
 
@@ -14068,7 +14035,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
 
 /***/ },
-/* 141 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var BaseObject, CommunicationStatus, Foundation, Request, Response, Validator, arrayWith, failure, formattedInspect, inspect, isJsonType, isPlainObject, log, merge, missing, responseValidator, success, w,
@@ -14077,7 +14044,7 @@
 
 	Foundation = __webpack_require__(24);
 
-	Request = __webpack_require__(139);
+	Request = __webpack_require__(138);
 
 	BaseObject = Foundation.BaseObject, arrayWith = Foundation.arrayWith, inspect = Foundation.inspect, isPlainObject = Foundation.isPlainObject, log = Foundation.log, CommunicationStatus = Foundation.CommunicationStatus, Validator = Foundation.Validator, merge = Foundation.merge, isJsonType = Foundation.isJsonType, formattedInspect = Foundation.formattedInspect, w = Foundation.w;
 
@@ -14151,11 +14118,11 @@
 
 	  return Response;
 
-	})(__webpack_require__(140));
+	})(__webpack_require__(139));
 
 
 /***/ },
-/* 142 */
+/* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, CommunicationStatus, Config, Filter, Foundation, Pipeline, PipelineRegistry, Promise, Request, Response, Session, Validator, arrayToTruthMap, compactFlatten, decapitalize, defineModule, failure, inspect, inspectedObjectLiteral, isClass, isFunction, isPlainArray, isPlainObject, isString, log, lowerCamelCase, merge, mergeInto, missing, newObjectFromEach, normalizeFieldProps, peek, reverseForEach, success,
@@ -14165,17 +14132,17 @@
 
 	Foundation = __webpack_require__(24);
 
-	Response = __webpack_require__(141);
+	Response = __webpack_require__(140);
 
-	Request = __webpack_require__(139);
+	Request = __webpack_require__(138);
 
-	Filter = __webpack_require__(138);
+	Filter = __webpack_require__(137);
 
-	Session = __webpack_require__(122);
+	Session = __webpack_require__(121);
 
-	Config = __webpack_require__(137);
+	Config = __webpack_require__(136);
 
-	PipelineRegistry = __webpack_require__(121);
+	PipelineRegistry = __webpack_require__(120);
 
 	newObjectFromEach = Foundation.newObjectFromEach, compactFlatten = Foundation.compactFlatten, BaseObject = Foundation.BaseObject, reverseForEach = Foundation.reverseForEach, Promise = Foundation.Promise, log = Foundation.log, isPlainObject = Foundation.isPlainObject, inspect = Foundation.inspect, isString = Foundation.isString, isClass = Foundation.isClass, isFunction = Foundation.isFunction, inspect = Foundation.inspect, CommunicationStatus = Foundation.CommunicationStatus, merge = Foundation.merge, isPlainArray = Foundation.isPlainArray, decapitalize = Foundation.decapitalize, defineModule = Foundation.defineModule, Validator = Foundation.Validator, mergeInto = Foundation.mergeInto, arrayToTruthMap = Foundation.arrayToTruthMap, lowerCamelCase = Foundation.lowerCamelCase, peek = Foundation.peek, inspectedObjectLiteral = Foundation.inspectedObjectLiteral;
 
@@ -14613,29 +14580,69 @@
 
 	  return Pipeline;
 
-	})(__webpack_require__(136)));
+	})(__webpack_require__(135)));
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
+
+/***/ },
+/* 142 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	/*
+	Used for buidling the minimal node.js code to deploy for production.
+	Right now, this is tested with HEROKU, but it should work in other cases.
+
+	Basically, you will build a single JS file that inludes:
+
+	  require and init your pipelines
+	  require this file
+
+	See art-ery-heroku-dev for a concrete example. In fact, you can use that repository
+	as a starting point. All you need to do is require your own pipelines in
+	the index.coffe file.
+	 */
+	var Server, log;
+
+	__webpack_require__(143);
+
+	log = __webpack_require__(24).log;
+
+	Server = __webpack_require__(144);
+
+	Server.Main.start({
+	  port: (process.env.PORT || Server.Main.defaults.port) | 0
+	});
+
 
 /***/ },
 /* 143 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(144).addModules({
-	  Main: __webpack_require__(145),
-	  PromiseHttp: __webpack_require__(146)
-	});
+	module.exports = __webpack_require__(118);
+
+	__webpack_require__(116);
 
 
 /***/ },
 /* 144 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = __webpack_require__(145).addModules({
+	  Main: __webpack_require__(146),
+	  PromiseHttp: __webpack_require__(147)
+	});
+
+
+/***/ },
+/* 145 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var Ery, Server,
 	  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
 	  hasProp = {}.hasOwnProperty;
 
-	Ery = __webpack_require__(119);
+	Ery = __webpack_require__(117);
 
 	module.exports = Ery.Server || Ery.addNamespace('Server', Server = (function(superClass) {
 	  extend(Server, superClass);
@@ -14650,7 +14657,7 @@
 
 
 /***/ },
-/* 145 */
+/* 146 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var CommunicationStatus, Main, PromiseHttp, defineModule, isNumber, log, merge, pipelines, ref, success;
@@ -14659,9 +14666,9 @@
 
 	success = CommunicationStatus.success;
 
-	PromiseHttp = __webpack_require__(146);
+	PromiseHttp = __webpack_require__(147);
 
-	pipelines = __webpack_require__(118).pipelines;
+	pipelines = __webpack_require__(116).pipelines;
 
 	defineModule(module, Main = (function() {
 	  function Main() {}
@@ -14743,7 +14750,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
 
 /***/ },
-/* 146 */
+/* 147 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var BaseObject, Promise, PromiseHttp, defineModule, http, log, merge, ref, select,
@@ -14752,7 +14759,7 @@
 
 	ref = __webpack_require__(24), select = ref.select, defineModule = ref.defineModule, log = ref.log, Promise = ref.Promise, BaseObject = ref.BaseObject, merge = ref.merge;
 
-	http = __webpack_require__(147);
+	http = __webpack_require__(148);
 
 	defineModule(module, PromiseHttp = (function(superClass) {
 	  extend(PromiseHttp, superClass);
@@ -14848,7 +14855,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module)))
 
 /***/ },
-/* 147 */
+/* 148 */
 /***/ function(module, exports) {
 
 	module.exports = require('http');
