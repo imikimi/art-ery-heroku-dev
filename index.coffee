@@ -1,0 +1,1 @@
+require 'art-ery/art-ery-deploy-server'

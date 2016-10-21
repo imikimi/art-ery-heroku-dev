@@ -4,7 +4,7 @@
   "license": "ISC",
   "name": "art-ery-heroku-dev",
   "scripts": {
-    "start": "node index.js"
+    "start": "node build/index.js"
   },
   "engines": {
     "node": "6.9.1"
