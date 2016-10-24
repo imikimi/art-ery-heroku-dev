@@ -4,7 +4,10 @@
   "license": "ISC",
   "name": "art-ery-heroku-dev",
   "scripts": {
-    "start": "node build/index.js"
+    "start":        "node build/index.js",
+    "build":        "webpack; git commit build/index.js -m 'updated index.js'",
+    "deploy":       "git push",
+    "buildDeploy":  "npm run build; npm run deploy"
   },
   "engines": {
     "node": "6.9.1"
